@@ -1,0 +1,50 @@
+apiVersion: skaffold/v2beta6
+kind: Config
+
+build:
+  artifacts:
+    - image: 629276645520.dkr.ecr.eu-central-1.amazonaws.com/wallet-relax
+      sync:
+        auto: { }
+      jib:
+        args: [ "-Psync", "-Djib.from.image=gcr.io/distroless/java:11-debug" ]
+
+deploy:
+  helm:
+    releases:
+      - name: wallet-relax
+        chartPath: helm/wallet-relax
+        namespace: develop
+        valuesFiles:
+          - helm/wallet-relax/values.yaml
+          - helm/wallet-relax/values/develop.yaml
+          - helm/wallet-relax/secret-values/develop.yaml
+        setValues:
+          updatedAt: 01011984
+        artifactOverrides:
+          image: 629276645520.dkr.ecr.eu-central-1.amazonaws.com/wallet-relax
+
+portForward:
+  - resourceType: service
+    resourceName: wallet-relax
+    namespace: develop
+    port: 80
+
+profiles:
+  - name: test
+    patches:
+      - op: replace
+        path: /deploy/helm/releases/0/name
+        value: wallet-relax
+      - op: replace
+        path: /deploy/helm/releases/0/namespace
+        value: test
+      - op: replace
+        path: /deploy/helm/releases/0/valuesFiles/1
+        value: helm/wallet-relax/values/test.yaml
+      - op: replace
+        path: /deploy/helm/releases/0/valuesFiles/2
+        value: helm/wallet-relax/secret-values/test.yaml
+      - op: replace
+        path: /portForward/0/namespace
+        value: test

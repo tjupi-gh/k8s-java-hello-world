@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-java-hello-world
+  labels:
+    app.kubernetes.io/name: k8s-java-hello-world
+    app.kubernetes.io/version: 1.0.0
+    app.kubernetes.io/part-of: k8s-java-hello-world
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 443
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: k8s-java-hello-world

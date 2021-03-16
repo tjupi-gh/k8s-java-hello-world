@@ -1,0 +1,29 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: k8s-java-hello-world
+  labels:
+    app.kubernetes.io/name: k8s-java-hello-world
+    app.kubernetes.io/version: 1.0.0
+    app.kubernetes.io/part-of: k8s-java-hello-world
+data:
+  application.yaml: |-
+    app:
+      welcome-message: Welcome!
+    management:
+    # Different port for metrics and healthchecks solve problem Istio vs Kubelet
+      server.port: 8090
+      health.binders.enabled: true
+      endpoints:
+        web:
+          base-path: /
+          path-mapping.prometheus: metrics
+          exposure.include: [prometheus, health]
+        enabled-by-default: false
+      endpoint:
+        prometheus.enabled: true
+        health.enabled: true
+    server:
+      tomcat:
+        mbeanregistry:
+          enabled: true

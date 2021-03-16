@@ -1,0 +1,51 @@
+nameOverride: "k8s-java-hello-worldgrey"
+fullnameOverride: "k8s-java-hello-worldgrey"
+
+namespace: prod
+domain: flatdog
+
+replicaCount: 2
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 1000m
+  requests:
+    cpu: 200m
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: relax.integration.flatdoggames.com
+      paths:
+        - /games/url
+        - /games/url/launch
+        - /users/balance
+        - /games/getgames
+        - /replay/get
+        - /freespins/add
+        - /freespins/get
+        - /jackpots/values
+        - /dictionaries/.*
+        - /reconcile
+
+  tls:
+    - secretName: k8s-java-hello-worldgrey-letsencrypt-prod
+      hosts:
+        - relax.integration.flatdoggames.com
+
+properties:
+  operatorCode: relaxgrey
+  gameRefPrefix: "rlx.fd.fd."
+  baseUrl: "https://iomeu-casino-p2p.api.relaxg.com:7006/p2p/v1"
+  kalambaApiUrl: wss://gameserver-api.eu-1.flatdoggames.com/oryxreplica/
+  launchUrl: https://relax.integration.flatdoggames.com/games/url/launch
+
+masterdataClient:
+  host: masterdata-flatdog

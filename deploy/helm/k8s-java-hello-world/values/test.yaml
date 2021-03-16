@@ -1,0 +1,32 @@
+namespace: test
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: relax.integration.test.kalambagames.com
+      paths:
+        - /games/url
+        - /games/url/launch
+        - /users/balance
+        - /games/getgames
+        - /replay/get
+        - /freespins/add
+        - /freespins/get
+        - /jackpots/values
+        - /dictionaries/.*
+        - /reconcile
+
+  tls:
+    - secretName: k8s-java-hello-world-letsencrypt-test
+      hosts:
+        - relax.integration.test.kalambagames.com
+
+properties:
+  baseUrl: "https://mpartner-intg.api.relaxg.com:7000/p2p/v1"
+  launchUrl: https://relax.integration.test.kalambagames.com/games/url/launch
+
+logging:
+  scan: true

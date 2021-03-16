@@ -1,0 +1,64 @@
+
+name: "k8s-java-hello-world"
+
+replicaCount: 1
+image: registry.digitalocean.com/k8s-java-hello-world
+
+service:
+  type: ClusterIP
+  http:
+    port: 80
+  grpc:
+    port: 8081
+
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: do-dns01-letsencrypt-prod
+    nginx.ingress.kubernetes.io/use-regex: "true"
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 500m
+    memory: 768Mi
+  requests:
+    cpu: 100m
+    memory: 768Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+properties:
+  operatorCode: relax
+  gameRefPrefix: "rlx.ka.ka."
+  baseUrl: "https://api.relaxg.net/p2p/v1"
+  kalambaApiUrl: wss://gameserver-api.test.eu-1.kalambagames.com/oryxreplica/
+  http:
+    callTimeoutMs: 10000
+    connectionTimeoutMs: 10000
+    retryMs: 1000
+    maxRetryMs: 10000
+    maxRetryAttempts: 3
+  resources:
+    java: 512M
+
+logging:
+  level: info
+  scan: false
+  scanPeriodSeconds: 30
+
+masterdataClient:
+  host: masterdata-kalamba
+  timeoutInMillis: 3000
+  retryAttempts: 3
+  currenciesRefreshMs: 300000
+  gamesRefreshMs: 300000
+  configPropertiesRefreshMs: 300000
