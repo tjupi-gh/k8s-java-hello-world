@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: k8s-java-hello-world
+  name: k8s-java-hello-world-configuration
   labels:
     app.kubernetes.io/name: k8s-java-hello-world
     app.kubernetes.io/version: 1.0.0

@@ -32,7 +32,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: k8s-java-hello-world
-          image: registry.digitalocean.com/k8s-java-hello-world
+          image: registry.digitalocean.com/learning/k8s-java-hello-world
 #          kubectl explain pod.spec.containers.readinessProbe
 #          timeoutSeconds: Number of seconds after which the probe times out. Defaults to 1 second.
 #          periodSeconds: How often (in seconds) to perform the probe. Default to 10 seconds. Minimum
@@ -40,6 +40,10 @@ spec:
 #          failureThreshold: Minimum consecutive failures for the probe to be considered failed after
 #          having succeeded. Defaults to 3. Minimum value is 1
           readinessProbe:
+            httpGet:
+              path: /health
+              port: 8090
+          livenessProbe:
             httpGet:
               path: /health
               port: 8090
