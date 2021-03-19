@@ -12,12 +12,14 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <git-commit-id-plugin.version>4.0.3</git-commit-id-plugin.version>
-    <spring-boot.version>2.4.3</spring-boot.version>
+    <spring-boot.version>2.4.4</spring-boot.version>
     <lombok.version>1.18.18</lombok.version>
     <jib-maven-plugin.version>2.8.0</jib-maven-plugin.version>
     <container.registry.url>registry.digitalocean.com</container.registry.url>
     <container.name>learning/k8s-java-hello-world</container.name>
-    <micrometer-registry-prometheus.version>1.6.4</micrometer-registry-prometheus.version>
+    <micrometer-registry-prometheus.version>1.6.5</micrometer-registry-prometheus.version>
+    <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
+    <dependency-check-maven.version>6.1.2</dependency-check-maven.version>
   </properties>
 
   <dependencies>
@@ -108,6 +110,39 @@
             </jvmFlags>
           </container>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>${versions-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>display-dependency-updates</goal>
+              <goal>display-property-updates</goal>
+              <goal>display-plugin-updates</goal>
+              <goal>dependency-updates-report</goal>
+              <goal>plugin-updates-report</goal>
+              <goal>property-updates-report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>${dependency-check-maven.version}</version>
+        <configuration>
+          <failBuildOnCVSS>8</failBuildOnCVSS>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
