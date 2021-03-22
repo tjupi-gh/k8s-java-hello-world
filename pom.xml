@@ -62,6 +62,7 @@
         <dependency>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-devtools</artifactId>
+          <version>${spring-boot.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -103,7 +104,9 @@
           <container>
             <ports>
               <port>8080</port>
+              <port>8090</port>
             </ports>
+            <user>1000:3000</user>
             <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
             <jvmFlags>
               <jvmFlag>-server</jvmFlag>

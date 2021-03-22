@@ -78,6 +78,8 @@ spec:
                 -Dspring.config.location=file:/etc/app/config/
                 -Dlogging.config=/etc/app/resources/logback.xml
                 -Dlogback.statusListenerClass=ch.qos.logback.core.status.OnConsoleStatusListener
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - configMap:
             name: k8s-java-hello-world-configuration

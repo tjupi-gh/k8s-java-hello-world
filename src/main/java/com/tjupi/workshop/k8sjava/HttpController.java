@@ -16,6 +16,6 @@ public class HttpController {
 
   @GetMapping
   public String sayHello() {
-    return helloMessage;
+    return helloMessage + "hmm1";
   }
 }
