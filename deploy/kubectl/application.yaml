@@ -25,11 +25,11 @@ spec:
       # Istio assumes k8s's identity and later on uses for authentication.
       # Apart of Istio this is best practices run services with its own account and therefore
       # required privileges (roles and clusterRoles)
-      serviceAccountName: k8s-java-hello-world
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 3000
-        fsGroup: 2000
+#      serviceAccountName: k8s-java-hello-world
+#      securityContext:
+#        runAsUser: 1000
+#        runAsGroup: 3000
+#        fsGroup: 2000
       containers:
         - name: k8s-java-hello-world
           image: registry.digitalocean.com/learning/k8s-java-hello-world
@@ -47,6 +47,8 @@ spec:
             httpGet:
               path: /health
               port: 8090
+            failureThreshold: 12
+            periodSeconds: 10
           ports:
             - name: http
               containerPort: 8080
@@ -57,8 +59,8 @@ spec:
               protocol: TCP
           resources:
             limits:
-              cpu: 200m
-              memory: 400Mi
+              cpu: 1000m
+              memory: 800Mi
             requests:
               cpu: 100m
               memory: 300Mi
@@ -78,8 +80,8 @@ spec:
                 -Dspring.config.location=file:/etc/app/config/
                 -Dlogging.config=/etc/app/resources/logback.xml
                 -Dlogback.statusListenerClass=ch.qos.logback.core.status.OnConsoleStatusListener
-          securityContext:
-            allowPrivilegeEscalation: false
+#          securityContext:
+#            allowPrivilegeEscalation: false
       volumes:
         - configMap:
             name: k8s-java-hello-world-configuration

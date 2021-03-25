@@ -106,7 +106,6 @@
               <port>8080</port>
               <port>8090</port>
             </ports>
-            <user>1000:3000</user>
             <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
             <jvmFlags>
               <jvmFlag>-server</jvmFlag>
