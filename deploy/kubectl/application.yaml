@@ -57,11 +57,11 @@ spec:
               protocol: TCP
           resources:
             limits:
-              cpu: 500m
-              memory: 768Mi
+              cpu: 200m
+              memory: 400Mi
             requests:
               cpu: 100m
-              memory: 768Mi
+              memory: 300Mi
           volumeMounts:
             - mountPath: /etc/app/config/application.yaml
               name: application-configuration
@@ -74,7 +74,7 @@ spec:
             - name: "JAVA_TOOL_OPTIONS"
               value: |
                 -Xms256M
-                -Xmx512M
+                -Xmx256M
                 -Dspring.config.location=file:/etc/app/config/
                 -Dlogging.config=/etc/app/resources/logback.xml
                 -Dlogback.statusListenerClass=ch.qos.logback.core.status.OnConsoleStatusListener
