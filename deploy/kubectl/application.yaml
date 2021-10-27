@@ -13,7 +13,7 @@ metadata:
     # Tools around assume such naming convention and building product around it. Ex Istio and Kiali
     app.kubernetes.io/part-of: k8s-java-hello-world
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: k8s-java-hello-world
@@ -32,7 +32,7 @@ spec:
         fsGroup: 2000
       containers:
         - name: k8s-java-hello-world
-          image: registry.digitalocean.com/learnnnnn/k8s-java-hello-world:buildpack
+          image: registry.digitalocean.com/september-learning/k8s-java-hello-world
 #          kubectl explain pod.spec.containers.readinessProbe
 #          timeoutSeconds: Number of seconds after which the probe times out. Defaults to 1 second.
 #          periodSeconds: How often (in seconds) to perform the probe. Default to 10 seconds. Minimum
@@ -41,11 +41,11 @@ spec:
 #          having succeeded. Defaults to 3. Minimum value is 1
           readinessProbe:
             httpGet:
-              path: /health
+              path: /health/readiness
               port: 8090
           livenessProbe:
             httpGet:
-              path: /health
+              path: /health/liveness
               port: 8090
             failureThreshold: 12
             periodSeconds: 10
@@ -72,16 +72,32 @@ spec:
             - mountPath: /etc/app/resources
               name: logging-configuration
               readOnly: true
+            - mountPath: /var/app/tmp
+              name: tmp-directory
+              readOnly: false
           env:
             - name: "JAVA_TOOL_OPTIONS"
               value: |
-                -Xms256M
-                -Xmx256M
+                -XX:+PrintFlagsFinal
+                -XX:+UnlockExperimentalVMOptions
+                -XX:MaxRAMPercentage=75
+                -XX:MinHeapFreeRatio=20
+                -XX:MaxHeapFreeRatio=40
+                -XX:GCTimeRatio=4
+                -XX:AdaptiveSizePolicyWeight=90
+                -XX:+HeapDumpOnOutOfMemoryError
+                -XX:HeapDumpPath=/var/app/tmp/dumps
+                -Djava.io.tmpdir=/var/app/tmp
                 -Dspring.config.location=file:/etc/app/config/
                 -Dlogging.config=/etc/app/resources/logback.xml
                 -Dlogback.statusListenerClass=ch.qos.logback.core.status.OnConsoleStatusListener
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            privileged: false
+            capabilities:
+              drop:
+                - all
       volumes:
         - configMap:
             name: k8s-java-hello-world-configuration
@@ -89,3 +105,5 @@ spec:
         - configMap:
             name: k8s-java-hello-world-logging-configuration
           name: logging-configuration
+        - emptyDir: {}
+          name: tmp-directory

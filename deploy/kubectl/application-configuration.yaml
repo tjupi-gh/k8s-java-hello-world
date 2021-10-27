@@ -9,7 +9,7 @@ metadata:
 data:
   application.yaml: |-
     app:
-      welcome-message: Welcome!
+      welcome-message: Welcome!!!
     management:
     # Different port for metrics and healthchecks solve problem Istio vs Kubelet
       server.port: 8090
@@ -27,3 +27,4 @@ data:
       tomcat:
         mbeanregistry:
           enabled: true
+        basedir: /var/app/tmp
