@@ -1,22 +1,22 @@
-apiVersion: skaffold/v2beta6
+apiVersion: skaffold/v2beta24
 kind: Config
-
 build:
   artifacts:
-    - image: registry.digitalocean.com/learning/k8s-java-hello-world
-      sync:
-        auto: { }
-      jib:
-        args: [ "-Psync", "-Djib.from.image=gcr.io/distroless/java:11-debug" ]
-
+  - image: registry.digitalocean.com/october-learning/k8s-java-hello-world
+    sync:
+      auto: true
+    jib:
+      args:
+      - -Psync
+      - -Djib.from.image=gcr.io/distroless/java:11-debug
 deploy:
   kubectl:
-    manifests: [ "deploy/kubectl/*.yaml" ]
-
+    manifests:
+    - deploy/kubectl/*.yaml
 portForward:
-  - resourceType: service
-    resourceName: k8s-java-hello-world
-    port: 80
-  - resourceType: deployment
-    resourceName: k8s-java-hello-world
-    port: 8090
+- resourceType: deployment
+  resourceName: k8s-java-hello-world
+  port: 8080
+- resourceType: deployment
+  resourceName: k8s-java-hello-world
+  port: 8090

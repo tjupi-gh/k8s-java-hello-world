@@ -13,7 +13,7 @@ metadata:
     # Tools around assume such naming convention and building product around it. Ex Istio and Kiali
     app.kubernetes.io/part-of: k8s-java-hello-world
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: k8s-java-hello-world
@@ -26,13 +26,13 @@ spec:
       # Apart of Istio this is best practices run services with its own account and therefore
       # required privileges (roles and clusterRoles)
       serviceAccountName: k8s-java-hello-world
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 3000
-        fsGroup: 2000
+#      securityContext:
+#        runAsUser: 1000
+#        runAsGroup: 3000
+#        fsGroup: 2000
       containers:
         - name: k8s-java-hello-world
-          image: registry.digitalocean.com/september-learning/k8s-java-hello-world
+          image: registry.digitalocean.com/october-learning/k8s-java-hello-world
 #          kubectl explain pod.spec.containers.readinessProbe
 #          timeoutSeconds: Number of seconds after which the probe times out. Defaults to 1 second.
 #          periodSeconds: How often (in seconds) to perform the probe. Default to 10 seconds. Minimum
@@ -93,7 +93,7 @@ spec:
                 -Dlogback.statusListenerClass=ch.qos.logback.core.status.OnConsoleStatusListener
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
+#            readOnlyRootFilesystem: true
             privileged: false
             capabilities:
               drop:

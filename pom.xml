@@ -16,10 +16,10 @@
     <lombok.version>1.18.22</lombok.version>
     <jib-maven-plugin.version>3.1.4</jib-maven-plugin.version>
     <container.registry.url>registry.digitalocean.com</container.registry.url>
-    <container.name>september-learning/k8s-java-hello-world</container.name>
+    <container.name>october-learning/k8s-java-hello-world</container.name>
     <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
     <micrometer-registry-prometheus.version>1.7.5</micrometer-registry-prometheus.version>
-    <dependency-check-maven.version>6.1.2</dependency-check-maven.version>
+    <dependency-check-maven.version>6.4.1</dependency-check-maven.version>
   </properties>
 
   <dependencies>
