@@ -16,6 +16,6 @@ public class HttpController {
 
   @GetMapping
   public String sayHello() {
-    return helloMessage + " Sophia2";
+    return helloMessage + " Paula1";
   }
 }

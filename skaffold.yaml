@@ -13,6 +13,7 @@ deploy:
   kubectl:
     manifests:
     - deploy/kubectl/*.yaml
+
 portForward:
 - resourceType: deployment
   resourceName: k8s-java-hello-world
